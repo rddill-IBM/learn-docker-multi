@@ -1,0 +1,27 @@
+sudo: required
+language: generic 
+services: 
+    - docker
+
+before_install:
+    - docker build  -t rddill/docker-multi-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true rddill/docker-multi-test npm test
+
+after_success:
+
+    - docker build -t rddill/multi-client ./client
+    - docker build -t rddill/multi-nginx ./nginx
+    - docker build -t rddill/multi-server ./server
+    - docker build -t rddill/multi-worker ./worker
+
+    # log in to docker CLI
+    - echo "$DOCKER_PW" | docker login -u "$DOCKER_ID" --password-stdin
+
+    # push images to docker hub
+
+    - docker push rddill/multi-client
+    - docker push rddill/multi-nginx
+    - docker push rddill/multi-server
+    - docker push rddill/multi-worker

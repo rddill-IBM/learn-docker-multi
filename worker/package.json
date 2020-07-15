@@ -1,0 +1,12 @@
+{
+    "version": "0.0.2",
+    "name": "complex_fib",
+    "dependencies": {
+        "nodemon": "^2.0.4",
+        "redis": "^3.0.2"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon"
+    }
+}
