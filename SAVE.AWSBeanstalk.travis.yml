@@ -25,3 +25,18 @@ after_success:
     - docker push rddill/multi-nginx
     - docker push rddill/multi-server
     - docker push rddill/multi-worker
+
+    # tell aws how to install to elastic beanstalk
+    # which uses Elastic Container Service to actually host and run the containers
+
+deploy:
+    provider: elasticbeanstalk
+    region: us-east2
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-us-east-2-692974209456
+    bucket_path: multi-docker
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
